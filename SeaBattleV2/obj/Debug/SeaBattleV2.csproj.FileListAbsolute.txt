@@ -1,0 +1,15 @@
+D:\projects\SeaBattleV2\SeaBattleV2\bin\Debug\SeaBattleV2.exe.config
+D:\projects\SeaBattleV2\SeaBattleV2\bin\Debug\SeaBattleV2.exe
+D:\projects\SeaBattleV2\SeaBattleV2\bin\Debug\SeaBattleV2.pdb
+D:\projects\SeaBattleV2\SeaBattleV2\obj\Debug\SeaBattleV2.csprojAssemblyReference.cache
+D:\projects\SeaBattleV2\SeaBattleV2\obj\Debug\MainWindow.g.cs
+D:\projects\SeaBattleV2\SeaBattleV2\obj\Debug\App.g.cs
+D:\projects\SeaBattleV2\SeaBattleV2\obj\Debug\SeaBattleV2_MarkupCompile.cache
+D:\projects\SeaBattleV2\SeaBattleV2\obj\Debug\SeaBattleV2_MarkupCompile.lref
+D:\projects\SeaBattleV2\SeaBattleV2\obj\Debug\MainWindow.baml
+D:\projects\SeaBattleV2\SeaBattleV2\obj\Debug\SeaBattleV2.g.resources
+D:\projects\SeaBattleV2\SeaBattleV2\obj\Debug\SeaBattleV2.Properties.Resources.resources
+D:\projects\SeaBattleV2\SeaBattleV2\obj\Debug\SeaBattleV2.csproj.GenerateResource.cache
+D:\projects\SeaBattleV2\SeaBattleV2\obj\Debug\SeaBattleV2.csproj.CoreCompileInputs.cache
+D:\projects\SeaBattleV2\SeaBattleV2\obj\Debug\SeaBattleV2.exe
+D:\projects\SeaBattleV2\SeaBattleV2\obj\Debug\SeaBattleV2.pdb

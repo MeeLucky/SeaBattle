@@ -1,0 +1,62 @@
+﻿<Window x:Class="SeaBattleV2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SeaBattleV2"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="4"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        
+        <GridSplitter Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" 
+                      Background="DarkGray" Width="4"/>
+
+        <StackPanel x:Name="LeftField" 
+                    Grid.Row="0" Grid.Column="0"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"/>
+        <StackPanel x:Name="RightField" 
+                    Grid.Row="0" Grid.Column="2"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"/>
+
+        <StackPanel Grid.Row="1" Grid.Column="0"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center">
+            <TextBlock x:Name="Timer" 
+                   Grid.Row="1" Grid.Column="0" 
+                   Text="00:00" FontSize="20"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Center"/>
+            
+            <!--<TextBlock x:Name="Side"
+                   Margin="50, 0, 0, 0"
+                   Grid.Row="1" Grid.Column="2" 
+                   Text="leftSide" FontSize="20"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Center"/>-->
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Grid.Column="2"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+            <Button Click="RestartGame"
+                Background="White"
+                Width="30" Height="30"
+                Margin="0, 0, 30, 0">
+                <Button.Content>
+                    <Image Source="restart.png" Margin="2"/>
+                </Button.Content>
+            </Button>
+        </StackPanel>
+    </Grid>
+</Window>
