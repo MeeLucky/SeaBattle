@@ -16,6 +16,8 @@ namespace SeaBattleV2
         private int ShipID = 1;
         public string propName;
         public int hp = 10;//10 ships
+        public int Score = 0;
+        public GameLogic Enemy;
         public GameLogic(string propName)
         {
             this.propName = propName;
@@ -74,17 +76,24 @@ namespace SeaBattleV2
             NewState.Add(elem);
             if (elem.IsShip())
             {
+                Score += 5;
+                Enemy.Score -= 1;
                 elem.ShipRef.Decks -= 1;//hit ship
                 if (elem.ShipRef.IsDead())
                     Explosion(elem.ShipRef);
                 return true;
             }
             else
+            {
+                Score--;
                 return false;
+            }
         }
 
         private void Explosion(Ship ship)
         {
+            Score += 10;
+            Enemy.Score -= 5;
             hp--;
             int[] start = ship.GetStartPosition();
             int[] end = ship.GetEndPosition();

@@ -24,7 +24,7 @@ namespace SeaBattleV2
     {
         static GameLogic botField;
         static GameLogic userField;
-        static int BtnSize = 30;
+        public static int BtnSize = 30;
         static bool PlayerMove = true;
         static Bot bot;
         static DateTime start;
@@ -39,14 +39,23 @@ namespace SeaBattleV2
             userField = new GameLogic("userField");
             FirstDisplayField(userField, LeftField, false);
 
+            userField.Enemy = botField;
+            botField.Enemy = userField;
             bot = new Bot(userField);
+        }
+
+        private void OpenSettings (object sender, RoutedEventArgs e)
+        {
+            Settings settings = new Settings(this);
+            settings.Owner = this;
+            settings.Show();
         }
 
         private void Victory(string name)
         {
             string time = Timer.Text;
             timer.Stop();
-            MessageBox.Show($"{name} победил! \nИгра длилась {time}");
+            MessageBox.Show($"{name} победил!\nИгра длилась {time}\nСчёт игрока: {botField.Score}\nСчёт бота: {userField.Score}");
         }
 
         private void timeUp(object v, EventArgs e)
@@ -57,7 +66,7 @@ namespace SeaBattleV2
                 Timer.Text = timeStr;
         }
 
-        private void RestartGame (object sender, RoutedEventArgs e)
+        public void RestartGame (object sender, RoutedEventArgs e)
         {
             firstClick = false;
             RightField.Children.Clear();

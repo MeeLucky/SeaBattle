@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-D:\projects\SeaBattleV2\SeaBattleV2\obj\Debug\
+D:\projects\SeaBattle\SeaBattleV2\obj\Debug\
 SeaBattleV2
 none
 false
 DEBUG;TRACE
-D:\projects\SeaBattleV2\SeaBattleV2\App.xaml
-11151548125
+D:\projects\SeaBattle\SeaBattleV2\App.xaml
+21360784759
 
-101531981578
+11-239495749
 13-1505183044
-MainWindow.xaml;
+MainWindow.xaml;Settings.xaml;
 
 False
 
