@@ -152,6 +152,24 @@ namespace SeaBattleV2
             }
         }
 
+        public int[] RandomShot()
+        {
+            List<FieldsElement> elems = new List<FieldsElement>();
+
+            for(int i = 0; i < 10; i++)
+            {
+                for(int j = 0; j < 10; j++)
+                {
+                    if (!Field[i, j].IsFired)
+                        elems.Add(Field[i,j]);
+                }
+            }
+
+            int x = rnd.Next(elems.Count - 1);
+            FieldsElement aim = elems[x];
+            return new int[] { aim.GetY(), aim.GetX() };
+        }
+
         public void ClearState()
         {
             NewState = new List<FieldsElement>();

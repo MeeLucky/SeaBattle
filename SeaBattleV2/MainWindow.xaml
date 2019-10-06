@@ -69,6 +69,17 @@
                 </Button.Content>
             </Button>
 
+            <!--RandomShot-->
+            <Button Click="PlayerRandomShot"
+                    Background="White"
+                    Canvas.Left="150"
+                    Width="30" Height="30"
+                    Margin="0, 0, 30, 0">
+                <Button.Content>
+                    <Image Source="bullet.png"/>
+                </Button.Content>
+            </Button>
+
             <TextBlock x:Name="UserScore"
                        Canvas.Left="30"
                        Text="Игрок: 0" FontSize="20"

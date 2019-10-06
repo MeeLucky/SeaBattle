@@ -43,7 +43,7 @@ namespace SeaBattleV2
         {
             string time = Timer.Text;
             DTimer.Stop();
-            VictoryMessage vm = new VictoryMessage(name, time, BotField.Score, UserField.Score);
+            VictoryMessage vm = new VictoryMessage(name, time, UserField.Score, BotField.Score);
             vm.Owner = this;
             vm.Show();
         }
@@ -61,8 +61,11 @@ namespace SeaBattleV2
             RightField.Children.Clear();
             LeftField.Children.Clear();
             try { DTimer.Stop(); } catch (Exception) { }//can't stop the timer if it was not started
+
             Timer.Text = "00:00";
             PlayerMove = true;
+            BotScore.Text = "Бот: 0";
+            UserScore.Text = "Игрок: 0";
 
             BotField = new GameLogic("BotField");
             FullDisplayField(BotField, RightField, true);
@@ -128,12 +131,49 @@ namespace SeaBattleV2
             }
         }
 
+        private void PlayerRandomShot(object sender, RoutedEventArgs e)
+        {
+            if (!PlayerMove)
+                return;
+
+            if (!FirstClick)
+            {
+                Start = DateTime.Now;
+
+                DTimer = new DispatcherTimer();
+                DTimer.Tick += new EventHandler(TimeUp);
+                DTimer.Interval = new TimeSpan(0, 0, 1);
+                DTimer.Start();
+
+                FirstClick = true;
+            }
+
+            int[] pos = BotField.RandomShot();
+
+            if (PlayerMove = BotField.Move(pos[0], pos[1]))
+            {
+                DisplayField(BotField, RightField);
+                DisplayScore();
+            }
+            else
+            {
+                DisplayField(BotField, RightField);
+                DisplayScore();
+                BotMove();
+            }
+
+            if (BotField.IsLose())
+            {
+                PlayerMove = false;
+                Victory("Игрок");
+            }
+
+        }
+
         private void Button_Click(object sender, RoutedEventArgs e)
         { 
             if (!PlayerMove)
-            {
                 return;
-            }
 
             if (!FirstClick)
             {
