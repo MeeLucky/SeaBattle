@@ -1,0 +1,37 @@
+﻿<Window x:Class="SeaBattleV2.VictoryMessage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SeaBattleV2"
+        mc:Ignorable="d"
+        Title="VictoryMessage" Height="250" Width="300" 
+        ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
+    <StackPanel Margin="30" Orientation="Vertical">
+        <TextBlock x:Name="TBName" FontSize="18" TextWrapping="Wrap" Text="test победил!"/>
+        <TextBlock x:Name="TBTime" FontSize="18" TextWrapping="Wrap" Text="Игра длилась 00:00"/>
+        <TextBlock x:Name="TBBotScore" FontSize="18" TextWrapping="Wrap" Text="Счёт игрока: 213"/>
+        <TextBlock x:Name="TBUserScore" FontSize="18" TextWrapping="Wrap" Text="Счёт бота: -12"/>
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Center">
+            <!--Restart-->
+            <Button Click="RestartGame"
+                Background="White"
+                Width="40" Height="40"
+                Margin="0, 15, 50, 0">
+                <Button.Content>
+                    <Image Source="restart.png" Margin="2"/>
+                </Button.Content>
+            </Button>
+            <!--Exit-->
+            <Button Click="Exit"
+                Background="White"
+                Width="40" Height="40"
+                Margin="0, 15, 0, 0">
+                <Button.Content>
+                    <Image Source="RedCross.png" Margin="2"/>
+                </Button.Content>
+            </Button>
+        </StackPanel>
+    </StackPanel>
+</Window>

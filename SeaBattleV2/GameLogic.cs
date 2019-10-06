@@ -1,9 +1,5 @@
 ﻿ using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SeaBattleV2
 {
@@ -49,18 +45,9 @@ namespace SeaBattleV2
             return hp == 0;
         }
 
-        public bool IsLoseKastil()
-        {
-            /* 
-             * какого хрена на боте не работает обычный IsLose?
-             * почему-то не всегда уменьшается количество хп у коробля при попадании
-             */
-            return false;
-        }
-
         public bool CheckShotPosition(int y, int x)
         {
-            if (!(y >= 0 && y <= 10 && x >= 0 && x <= 10))
+            if ( !(y >= 0 && y <= 10 && x >= 0 && x <= 10) )
                 return false;
 
             if (this.Field[y, x].IsFired)
@@ -78,9 +65,11 @@ namespace SeaBattleV2
             {
                 Score += 5;
                 Enemy.Score -= 1;
+
                 elem.ShipRef.Decks -= 1;//hit ship
                 if (elem.ShipRef.IsDead())
                     Explosion(elem.ShipRef);
+
                 return true;
             }
             else
@@ -95,8 +84,8 @@ namespace SeaBattleV2
             Score += 10;
             Enemy.Score -= 5;
             hp--;
+
             int[] start = ship.GetStartPosition();
-            int[] end = ship.GetEndPosition();
             bool dir = ship.Direction;
             int decks = ship.DecksCount;
 
@@ -169,13 +158,13 @@ namespace SeaBattleV2
 
         private void AddShipInRandomPosition(int deckCount)
         {
-            bool isOver = false;
-            while (!isOver)
+            bool loop = false;
+            while (!loop)
             {
                 bool dir = rnd.NextDouble() < 0.5;
                 int x = rnd.Next(0, 9);
                 int y = rnd.Next(0, 9);
-                isOver = AddShip(y, x, deckCount, dir);
+                loop = AddShip(y, x, deckCount, dir);
             }
         }
 
@@ -212,7 +201,8 @@ namespace SeaBattleV2
 
         private bool CheckCells(int y1, int x1, int y2, int x2, int decks, bool direction)//return true if finding ship
         {
-            if (x1 < 0 || y1 < 0 || x2 >= 10 || y2 >= 10) return true;
+            if (x1 < 0 || y1 < 0 || x2 >= 10 || y2 >= 10)
+                return true;//выход за границы поля
             
             bool up = true, down = true, right = true, left = true;
             if (x1 == 0) left = false;
@@ -248,7 +238,7 @@ namespace SeaBattleV2
                     return true;
                 if (left && this.Field[y1, x1 - 1].IsShip())
                     return true;
-                //corners
+                //углы вокруг коробля
                 if (up && right && this.Field[y1 - 1, x2 + 1].IsShip())
                     return true;
                 if (down && right && this.Field[y1 + 1, x2 + 1].IsShip())
@@ -272,7 +262,7 @@ namespace SeaBattleV2
                     return true;
                 if (down && this.Field[y2 + 1, x1].IsShip())
                     return true;
-                //corners
+                //углы вокруг коробля
                 if (up && right && this.Field[y1 - 1, x1 + 1].IsShip())
                     return true;
                 if (down && right && this.Field[y2 + 1, x2 + 1].IsShip())

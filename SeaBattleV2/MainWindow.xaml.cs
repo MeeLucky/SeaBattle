@@ -1,47 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace SeaBattleV2
 {
-    /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
-        static GameLogic botField;
-        static GameLogic userField;
+        static GameLogic BotField;
+        static GameLogic UserField;
         public static int BtnSize = 30;
         static bool PlayerMove = true;
-        static Bot bot;
-        static DateTime start;
-        static DispatcherTimer timer;
-        static bool firstClick = false;
+        static Bot Bot;
+        static DateTime Start;
+        static DispatcherTimer DTimer;
+        static bool FirstClick = false;
         public MainWindow()
         {
             InitializeComponent();
 
-            botField = new GameLogic("BotField");
-            FirstDisplayField(botField, RightField, true);
-            userField = new GameLogic("userField");
-            FirstDisplayField(userField, LeftField, false);
+            BotField = new GameLogic("BotField");
+            FullDisplayField(BotField, RightField, true);
+            UserField = new GameLogic("userField");
+            FullDisplayField(UserField, LeftField, false);
 
-            userField.Enemy = botField;
-            botField.Enemy = userField;
-            bot = new Bot(userField);
+            UserField.Enemy = BotField;
+            BotField.Enemy = UserField;
+            Bot = new Bot(UserField);
         }
 
         private void OpenSettings (object sender, RoutedEventArgs e)
@@ -54,33 +42,37 @@ namespace SeaBattleV2
         private void Victory(string name)
         {
             string time = Timer.Text;
-            timer.Stop();
-            MessageBox.Show($"{name} победил!\nИгра длилась {time}\nСчёт игрока: {botField.Score}\nСчёт бота: {userField.Score}");
+            DTimer.Stop();
+            VictoryMessage vm = new VictoryMessage(name, time, BotField.Score, UserField.Score);
+            vm.Owner = this;
+            vm.Show();
         }
 
-        private void timeUp(object v, EventArgs e)
+        private void TimeUp(object v, EventArgs e)
         {
-                TimeSpan span;
-                span = DateTime.Now - start;
+                TimeSpan span = DateTime.Now - Start;
                 string timeStr = span.ToString(@"mm\:ss");
                 Timer.Text = timeStr;
         }
 
         public void RestartGame (object sender, RoutedEventArgs e)
         {
-            firstClick = false;
+            FirstClick = false;
             RightField.Children.Clear();
             LeftField.Children.Clear();
-            try { timer.Stop(); } catch (Exception) { }//can't stop the timer if it was not started
+            try { DTimer.Stop(); } catch (Exception) { }//can't stop the timer if it was not started
             Timer.Text = "00:00";
             PlayerMove = true;
 
-            botField = new GameLogic("BotField");
-            FirstDisplayField(botField, RightField, true);
-            userField = new GameLogic("userField");
-            FirstDisplayField(userField, LeftField, false);
+            BotField = new GameLogic("BotField");
+            FullDisplayField(BotField, RightField, true);
+            UserField = new GameLogic("userField");
+            FullDisplayField(UserField, LeftField, false);
 
-            bot = new Bot(userField);
+            UserField.Enemy = BotField;
+            BotField.Enemy = UserField;
+
+            Bot = new Bot(UserField);
         }
 
         private void DisplayField(GameLogic Field, object Side)
@@ -111,64 +103,74 @@ namespace SeaBattleV2
 
         private void BotMove()
         {
-            if (bot.Move())
+            if (Bot.Move())
             {
-                BotMove();
-                if (userField.IsLose())
+                if (UserField.IsLose())
                 {
+                    DisplayField(UserField, LeftField);
                     Victory("Бот");
+                    return;
                 }
+                BotMove();
             }
             else
             {
                 PlayerMove = true;
-                DisplayField(userField, LeftField);
+                DisplayField(UserField, LeftField);
             }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
-        {
+        { 
             if (!PlayerMove)
             {
                 return;
             }
 
-            if (!firstClick)
+            if (!FirstClick)
             {
-                start = DateTime.Now;
+                Start = DateTime.Now;
 
-                timer = new DispatcherTimer();
-                timer.Tick += new EventHandler(timeUp);
-                timer.Interval = new TimeSpan(0, 0, 1);
-                timer.Start();
+                DTimer = new DispatcherTimer();
+                DTimer.Tick += new EventHandler(TimeUp);
+                DTimer.Interval = new TimeSpan(0, 0, 1);
+                DTimer.Start();
 
-                firstClick = true;
+                FirstClick = true;
             }
 
             Button btn = (Button)sender;
             string[] splittedTag = btn.Tag.ToString().Split(',');
             int[] pos = new[] { Convert.ToInt32(splittedTag[0]), Convert.ToInt32(splittedTag[1]) };
 
-            if (botField.CheckShotPosition(pos[0], pos[1]))
+            if (BotField.CheckShotPosition(pos[0], pos[1]))
             {
-                if (PlayerMove = botField.Move(pos[0], pos[1]))
-                    DisplayField(botField, RightField);
+                if (PlayerMove = BotField.Move(pos[0], pos[1]))
+                    DisplayField(BotField, RightField);
                 else
                 {
-                    DisplayField(botField, RightField);
+                    DisplayField(BotField, RightField);
                     BotMove();
                 }
 
             }
 
-            if (botField.IsLose())
+            if (BotField.IsLose())
             {
                 PlayerMove = false;
                 Victory("Игрок");
             }
         }
 
-        private void FirstDisplayField(GameLogic Field, object Side, bool IsUser)
+        public void ReSizeButtons()
+        {
+            LeftField.Children.Clear();
+            RightField.Children.Clear();
+            FullDisplayField(BotField, RightField, true);
+            FullDisplayField(UserField, LeftField, false);
+        }
+
+        private void FullDisplayField(GameLogic Field, object Side, bool IsUser)
         {
             StackPanel panel = (StackPanel)Side;
 
@@ -183,6 +185,16 @@ namespace SeaBattleV2
                 {
                     FieldsElement elem = Field.Field[i, j];
                     string tag = $"{elem.GetY()},{elem.GetX()},{elem.Ship}";
+
+                    Image img = null;
+                    if(elem.IsFired)
+                    {
+                        if(elem.IsShip())
+                            img = new Image { Source = new BitmapImage(new Uri("RedCross.png", UriKind.Relative)) };
+                        else
+                            img = new Image { Source = new BitmapImage(new Uri("BlueCircle.png", UriKind.Relative)) };
+                    }
+
                     Button btn = new Button()
                     {
                         Width = BtnSize,
@@ -190,7 +202,7 @@ namespace SeaBattleV2
                         FontWeight = FontWeights.UltraBold,
                         Background = new SolidColorBrush(Colors.White),
                         Tag = tag,
-                        Content = ""//elem.Ship > 0 ? elem.Ship.ToString() : ""//for debug
+                        Content = img
                     };
                     if(!IsUser)
                     {
@@ -209,11 +221,6 @@ namespace SeaBattleV2
             }
         }
 
-        private Button GetButton(int y, int x, object Side)
-        {
-            StackPanel side = (StackPanel)Side;
-            return GetButton(y, x, side);
-        }
         private Button GetButton(int y, int x, StackPanel Side)
         {
             StackPanel row = (StackPanel)Side.Children[y];

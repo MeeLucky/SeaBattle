@@ -27,7 +27,6 @@ namespace SeaBattleV2
         }
 
         public int[] GetStartPosition() { return new int[] { this.y1, this.x1 }; }
-        public int[] GetEndPosition() { return new int[] { this.y2, this.x2 }; }
 
         public bool IsDead() { return Decks == 0; }
     }

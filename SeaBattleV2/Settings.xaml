@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SeaBattleV2"
         mc:Ignorable="d"
-        Title="Настройки" Height="200" Width="350">
+        Title="Настройки" Height="180" Width="350"
+        WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
     <StackPanel Margin="20">
         <StackPanel Orientation="Horizontal">
             <TextBox Width="50" FontSize="18" x:Name="Size"
@@ -14,7 +15,6 @@
             <Label Content="Размер элементов поля" FontSize="18"/>
         </StackPanel>
         
-        <Label Content="* Текущая игра начнётся заново" FontSize="18"/>
         
         <Button IsDefault="true" Content="Сохранить"
                 Width="100" FontSize="18"

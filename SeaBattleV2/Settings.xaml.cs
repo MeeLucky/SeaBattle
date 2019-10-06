@@ -19,11 +19,9 @@ namespace SeaBattleV2
     /// </summary>
     public partial class Settings : Window
     {
-        static MainWindow Main;
         public Settings(MainWindow main)
         {
             InitializeComponent();
-            Main = main;
             Size.Text = MainWindow.BtnSize.ToString();
         }
 
@@ -38,7 +36,8 @@ namespace SeaBattleV2
             if(MainWindow.BtnSize != Convert.ToInt32(Size.Text))
             {
                 MainWindow.BtnSize = Convert.ToInt32(str);
-                Main.RestartGame(null, null);
+                MainWindow main = (MainWindow)Owner;
+                main.ReSizeButtons();
             }
             this.Close();
         }

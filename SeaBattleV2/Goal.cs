@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SeaBattleV2
 {
@@ -20,7 +16,7 @@ namespace SeaBattleV2
             this.UserField = userField;
         }
 
-        public int[] GetNextShot()
+        public int[] GetNextShotPosition()
         {
             if(Elems.Count() == 1)
             {
@@ -30,13 +26,9 @@ namespace SeaBattleV2
                 for(int i = 0; i < 4; i++)
                 {
                     if(CheckEdge(y, x))
-                    {
-                        return cfd(y, x);
-                    }
+                        return CFD(y, x);
                     else
-                    {
                         ChangeGoalDirection();
-                    }
                 }
 
                 //ship destoyed
@@ -58,17 +50,16 @@ namespace SeaBattleV2
 
                 FieldsElement elem1 = UserField.Field[minY, minX];//начало открытого коробля
                 FieldsElement elem2 = UserField.Field[maxY, maxX];//конец открытого коробля
-                ShipDirection = Elems[0].GetY() == Elems[1].GetY() ? true : false;
+                ShipDirection = Elems[0].GetY() == Elems[1].GetY() ? true : false;//определение направления коробля //true is horizontal
 
                 for(int i = 0; i < 2; i++)
                 {
                     if (CheckEdge(elem1, elem2))
                     {
-                        //return cfd for goalDir and shipDir
                         if (GoalDirection == 1 || GoalDirection == 2)
-                            return cfd(elem2.GetY(), elem2.GetX());
+                            return CFD(elem2.GetY(), elem2.GetX());
                         else
-                            return cfd(elem1.GetY(), elem1.GetX());
+                            return CFD(elem1.GetY(), elem1.GetX());
                     }
                     else
                     {
@@ -81,7 +72,7 @@ namespace SeaBattleV2
         }
 
         private bool CheckEdge(FieldsElement elem1, FieldsElement elem2)
-        {
+        {//вызывает CheckEdge(y,x) исходя от направления цели
             switch(GoalDirection)
             {
                 case 1:
@@ -98,20 +89,16 @@ namespace SeaBattleV2
         }
 
         private bool CheckEdge(int y, int x)
-        {
-            int[] pos = cfd(y, x);
+        {//возвращает true, если следующий элемент по направлению доступен для выстрела
+            int[] pos = CFD(y, x);
             if (pos == null)
                 return false;
             FieldsElement elem = UserField.Field[pos[0], pos[1]];
             return !elem.IsFired;
         }
 
-        public void AddElem(FieldsElement elem)
-        {
-            this.Elems.Add(elem);
-        }
-        private int[] cfd(int y, int x)//correction for direction
-        {
+        private int[] CFD(int y, int x)//correction for direction
+        {//возвращает y,x с корректировкай на направлении цели
             switch(GoalDirection)
             {//1- right, 2 - down, etc
                 case 1:
@@ -133,14 +120,8 @@ namespace SeaBattleV2
                 return null;
         }
 
-        private void DetectShipDirection()
-        {
-            if (Elems.Count() != 0)
-                ShipDirection = Elems[0].GetY() == Elems[1].GetY() ? true : false;
-        }
-
         private void ChangeGoalDirection(bool ShipDirOnOff = false)
-        {
+        {//если передать true менят направление цели в зависемости от направления коробля
             if(ShipDirOnOff)
             {
                 if (ShipDirection)

@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SeaBattleV2
 {
@@ -24,11 +21,9 @@ namespace SeaBattleV2
         public bool Move()
         {
             if(Goal == null)
-            {
                 return RandomShot();
-            }
 
-            int[] pos = Goal.GetNextShot();
+            int[] pos = Goal.GetNextShotPosition();
             if (pos[0] == -1)
             {
                 Goal = null;
@@ -36,7 +31,7 @@ namespace SeaBattleV2
             }
 
             FieldsElement elem = UserField.Field[pos[0], pos[1]];
-            if (elem.IsShip() == true)
+            if (elem.IsShip())
                 Goal.Elems.Add(elem);
 
             return UserField.Move(pos[0], pos[1]);
@@ -46,16 +41,17 @@ namespace SeaBattleV2
         {
             if (Elems.Count() == 0)
                 return false;//this = 0 when all cells are used
-
+                
             Random rnd = new Random();
             int n = rnd.Next(Elems.Count());
             FieldsElement elem = Elems[n];
             Elems.RemoveAt(n);
             bool ret = UserField.Move(elem.GetY(), elem.GetX());
 
-            if(ret) Goal = new Goal(elem, UserField);
-            List<FieldsElement> state = UserField.NewState;
+            if(ret)
+                Goal = new Goal(elem, UserField);
 
+            List<FieldsElement> state = UserField.NewState;
             foreach (FieldsElement item in state)
             {
                 Elems.Remove(item);
