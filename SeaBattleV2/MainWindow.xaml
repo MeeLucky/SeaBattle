@@ -32,37 +32,49 @@
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center"/>
 
-        <StackPanel Grid.Row="1" Grid.Column="0"
-                    Orientation="Horizontal"
-                    HorizontalAlignment="Center">
+        <Canvas Grid.Row="1" Grid.Column="0">
             <TextBlock x:Name="Timer" 
-                   Grid.Row="1" Grid.Column="0" 
-                   Text="00:00" FontSize="20"
-                   HorizontalAlignment="Left"
-                   VerticalAlignment="Center"/>
-        </StackPanel>
+                       Canvas.Left="30"
+                       Text="00:00" FontSize="20"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Center"
+                       Margin="30, 0, 0, 0"/>
 
-        <StackPanel Grid.Row="1" Grid.Column="2"
-                    Orientation="Horizontal"
-                    HorizontalAlignment="Right">
+            <TextBlock x:Name="BotScore"
+                       Canvas.Right="30"
+                       Text="Бот: 0" FontSize="20"
+                       VerticalAlignment="Center"
+                       ToolTip="Счёт бота"/>
+        </Canvas>
+
+        <Canvas Grid.Row="1" Grid.Column="2">
             <!--Settings-->
             <Button Click="OpenSettings"
-                Background="White"
-                Width="30" Height="30"
-                Margin="0, 0, 10, 0">
+                    Canvas.Right="20"
+                    Background="White"
+                    Width="30" Height="30"
+                    Margin="0, 0, 10, 0">
                 <Button.Content>
                     <Image Source="settings.png"/>
                 </Button.Content>
             </Button>
             <!--Restart-->
             <Button Click="RestartGame"
-                Background="White"
-                Width="30" Height="30"
-                Margin="0, 0, 30, 0">
+                    Background="White"
+                    Canvas.Right="40"
+                    Width="30" Height="30"
+                    Margin="0, 0, 30, 0">
                 <Button.Content>
                     <Image Source="restart.png" Margin="2"/>
                 </Button.Content>
             </Button>
-        </StackPanel>
+
+            <TextBlock x:Name="UserScore"
+                       Canvas.Left="30"
+                       Text="Игрок: 0" FontSize="20"
+                       HorizontalAlignment="Right"
+                       VerticalAlignment="Center"
+                       ToolTip="Счёт игрока"/>
+        </Canvas>
     </Grid>
 </Window>

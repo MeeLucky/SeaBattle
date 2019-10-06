@@ -75,6 +75,12 @@ namespace SeaBattleV2
             Bot = new Bot(UserField);
         }
 
+        private void DisplayScore()
+        {
+            BotScore.Text = "Бот: " + UserField.Score.ToString();
+            UserScore.Text = "Игрок: " + BotField.Score.ToString(); 
+        }
+
         private void DisplayField(GameLogic Field, object Side)
         {
             if (Field.NewState.Count == 0)
@@ -108,6 +114,7 @@ namespace SeaBattleV2
                 if (UserField.IsLose())
                 {
                     DisplayField(UserField, LeftField);
+                    DisplayScore();
                     Victory("Бот");
                     return;
                 }
@@ -117,6 +124,7 @@ namespace SeaBattleV2
             {
                 PlayerMove = true;
                 DisplayField(UserField, LeftField);
+                DisplayScore();
             }
         }
 
@@ -146,10 +154,14 @@ namespace SeaBattleV2
             if (BotField.CheckShotPosition(pos[0], pos[1]))
             {
                 if (PlayerMove = BotField.Move(pos[0], pos[1]))
+                {
                     DisplayField(BotField, RightField);
+                    DisplayScore();
+                }
                 else
                 {
                     DisplayField(BotField, RightField);
+                    DisplayScore();
                     BotMove();
                 }
 

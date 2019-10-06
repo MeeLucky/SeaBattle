@@ -81,13 +81,14 @@ namespace SeaBattleV2
 
         private void Explosion(Ship ship)
         {
-            Score += 10;
             Enemy.Score -= 5;
             hp--;
 
             int[] start = ship.GetStartPosition();
             bool dir = ship.Direction;
             int decks = ship.DecksCount;
+
+            Score += 6 + decks * 2;//6 ячеек по бокам обязательно всегда есть и 2 соседние клетки вокруг каждой ячеки. это покрывает минус очки при move()в пустую клетку (там -1)
 
             int y = start[0];
             int x = start[1];
