@@ -273,6 +273,14 @@ namespace SeaBattleV2
             }
         }
 
+        private void Rules (object sender, RoutedEventArgs e)
+        {
+            Rules rules = new Rules();
+            rules.Owner = this;
+            rules.Show();
+
+        }
+
         private Button GetButton(int y, int x, StackPanel Side)
         {
             StackPanel row = (StackPanel)Side.Children[y];
